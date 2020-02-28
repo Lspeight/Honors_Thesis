@@ -4,6 +4,6 @@ The overall hypothesis is that evaluating synonymous and nonsynonmous changes oc
 ## My Own Data
 My data has been generated with DeviaTE software. I have 26 lineages of *Potamopyrgus antipodarum*, and 1 out group, that include the sequences of H2A, H2B, H3, and H4 genes
 ## Methods
-Still be developed
+Still being developed
 ## Results
 To be determined
