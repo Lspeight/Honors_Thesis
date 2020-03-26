@@ -1,8 +1,8 @@
 # Data uploaded 3/36/2020
 This data was produced by deviaTE software found at https://github.com/W-L/deviaTE/blob/master/doc/WALKTHROUGH.md
 This upload includes 27 different snail lineages and each of the 4 core histone gene sequences.
-Both the zipped and unzipped forms are present
-In total there are 108 file of sequence data
+Both the zipped and unzipped forms are present.
+In total there are 108 file of sequence data.
 The raw data will be used for anyalysis. 
 
 ## Lineage estimated copy number and 1x copy number uploaded 3/9/2020
