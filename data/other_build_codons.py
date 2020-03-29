@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-# ask about AGA, AGG being 4/3 and not 2/3 (is every change == 1/3???)
 CodonDict = {
     "ATG":[0, "M"], "TGG":[0, "W"], "ACT":[1, "T"], "ACC":[1, "T"], "ACA":[1, "T"], "ACG":[1, "T"], "TCT":[1, "S"], 
     "TCC":[1, "S"], "TCA":[1, "S"], "TCG":[1, "S"], "CTT":[1, "L"], "CTA":[1, "L"], "CTC":[1, "L"], "CTG":[1, "L"],
@@ -13,21 +12,127 @@ CodonDict = {
     "ATT":[2/3, "I"], "ATC":[2/3, "I"], "ATA":[2/3, "I"], "AGA":[2/3, "R"], "AGG":[2/3, "R"], "TTA":[2/3, "L"], "TTG":[2/3, "L"], 
     "TAA":[2/3, "X"], "TAG":[2/3, "X"], "CGA":[4/3, "R"], "CGG":[4/3, "R"]}
 
-with open("Mapourika_Histones_4/MP2_R1.fastq.Histone_H2A_wo_header.raw", "r") as raw_file:
-    with open("Mapourika_Histones_4/MP2_R1.fastq.Histone_H2A_wo_header.raw.out", "w") as out_file:
-        codon_sequence = ""
-        codon_position = 1
-        for line in raw_file:
-            # print(line)
-            line = line.split()
+
+def run_codon(codon_list, orig_codon_sequence, tmp_info):
+    print(codon_list)
+    print(tmp_info)
+    print("Original sequence:", orig_codon_sequence)
+    print("Original aa:", CodonDict[orig_codon_sequence][1])
+    tmp_codon_sequence = ""
+    for x in range(3):
+        if tmp_info[0][1] == x:
+            tmp_codon_sequence += tmp_info[0][0]
+        else:
+            tmp_codon_sequence += orig_codon_sequence[x]
+    print("Changed sequence:", tmp_codon_sequence)
+    print("Changed aa:", CodonDict[tmp_codon_sequence][1])
+    if CodonDict[orig_codon_sequence][1] == CodonDict[tmp_codon_sequence][1]:
+        print("Type of change:", 'S')
+    else:
+        print("Type of change:", 'N')
+    print('\n')
+    
+    '''
+        if (line[8] > line[4]) and (line[4] > 12):
+            codon_sequence += 'A'
+            num_changes = line[4]/23
+        elif (line[8] > line[5]) and (line[5] > 12):
+            codon_sequence += 'C'
+            num_changes = line[5]/23
+        elif (line[8] > line[6]) and (line[6] > 12):
+            codon_sequence += 'G'
+            num_changes = line[6]/23
+        elif (line[8] > line[7]) and (line[7] > 12):
+            codon_sequence += 'T'
+            num_changes = line[7]/23
+        else:
             codon_sequence += line[3]
-            if codon_position == 3:
-                line.append(codon_sequence)
-                line.append(CodonDict[codon_sequence][0])
+        if codon_position == 3:
+            line.append(CodonDict[codon_sequence][0])
+            codon_sequence = ""
+            codon_position = 1
+            str1 = ' '.join(str(e) for e in line)
+            #out_file.write(' '.join(line))
+        else:
+            codon_position += 1
+'''
+
+with open("Mapourika_Histones_4/MP2_R1.fastq.Histone_H2A.raw", "r") as raw_file:
+    codon_list = []
+    position = 0
+    codon_sequence = ""
+    need_to_run_test = False
+    tmp_sequence = []
+    tmp_base = ""
+    for line in raw_file:
+        line = line.split()
+        if line[0][0] != "#":
+            TEfam = line[1]
+            sample_id = line[2]
+            refbase = line[3]
+            A = int(line[4])
+            C = int(line[5])
+            G = int(line[6])
+            T = int(line[7])
+            if refbase == 'A':
+                if (C > 12):
+                    tmp_base += 'C'
+                if (G > 12):
+                    tmp_base += 'G'
+                if (T > 12):
+                    tmp_base += 'T'
+                if tmp_base != "":
+                    need_to_run_test = True
+                    info = tmp_base, position
+                    tmp_sequence.append(info)
+                    tmp_base = ""
+            elif refbase == 'C':
+                if (A > 12):
+                    tmp_base += 'A'
+                if (G > 12):
+                    tmp_base += 'G'
+                if (T > 12):
+                    tmp_base += 'T'
+                if tmp_base != "":
+                    need_to_run_test = True
+                    info = tmp_base, position
+                    tmp_sequence.append(info)
+                    tmp_base = ""
+            elif refbase == 'G':
+                if (A > 12):
+                    tmp_base += 'A'
+                if (C > 12):
+                    tmp_base += 'C'
+                if (T > 12):
+                    tmp_base += 'T'
+                if tmp_base != "":
+                    need_to_run_test = True
+                    info = tmp_base, position
+                    tmp_sequence.append(info)
+                    tmp_base = ""
+            elif refbase == 'T':
+                if (A > 12):
+                    tmp_base += 'A'
+                if (C > 12):
+                    tmp_base += 'C'
+                if (G > 12):
+                    tmp_base += 'G'
+                if tmp_base != "":
+                    need_to_run_test = True
+                    info = tmp_base, position
+                    tmp_sequence.append(info)
+                    tmp_base = ""
+            codon_list.append(line)
+            codon_sequence += line[3]
+            if (position == 2):
+                if (need_to_run_test == True):
+                    run_codon(codon_list, codon_sequence, tmp_sequence)
+                codon_list = []
+                position = 0
                 codon_sequence = ""
-                codon_position = 1
-                str1 = ' '.join(str(e) for e in line)
-                out_file.write(str1 + '\n')
-                #out_file.write(' '.join(line))
+                need_to_run_test = False
+                tmp_sequence = []
+                tmp_base = ""
             else:
-                codon_position += 1
+                position += 1
+
