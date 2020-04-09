@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import sys
+from math import log
+
 
 # This is useful as a command line arguement that allows us to better understand what call we are on
 # For example, when Yellow2_Histone_H2A.raw is ran through this python script, it will set
@@ -28,18 +30,28 @@ CodonDict = {
     "ATT":[2/3, "I"], "ATC":[2/3, "I"], "ATA":[2/3, "I"], "AGA":[2/3, "R"], "AGG":[2/3, "R"], "TTA":[2/3, "L"], "TTG":[2/3, "L"], 
     "TAA":[2/3, "X"], "TAG":[2/3, "X"], "CGA":[4/3, "R"], "CGG":[4/3, "R"]}
 
-# Global values used for ds and dn. These will be reset to 0 during each call to this python script and only change
-# during a syn (ds) or non-syn (dn) nucleotide change
-ds = 0
-dn = 0
+# Global values used for sum_for_avg_s and sum_for_avg_n. These will be reset to 0 during each call to this python script and only change
+# during a syn (sum_for_avg_s) or non-syn (sum_for_avg_n) nucleotide change
+#for non-synonymous
+sum_for_avg_n = 0
+sum_K = 0
 
-# Function to computationally find ds or dn for each given codon and adds those respective values to their
-# global ds or dn value. This code only runs when the below code finds a base that isn't refbase but is greater 
+# for synonymous
+sum_for_avg_s = 0
+sum_L = 0
+
+# Function to computationally find sum_for_avg_s or sum_for_avg_n for each given codon and adds those respective values to their
+# global sum_for_avg_s or sum_for_avg_n value. This code only runs when the below code finds a base that isn't refbase but is greater 
 # than the 1x value divided by ploidy number (normal rounding where x.5 rounds up). For debugging purposes, this part of
 # the code also writes to a debugger_file (debugger_file.txt) located in the output directory of this git repo
 def run_codon(codon_list, orig_codon_sequence, tmp_info, number_of_changes):
-    global ds
-    global dn
+    
+    global sum_for_avg_n
+    global sum_L
+
+    global sum_for_avg_s
+    global sum_K
+    
     with open("../output/debugger_file.txt", "a") as debugger_txt:
         for x in range(3):
             debugger_txt.write(str(codon_list[x])+'\n')
@@ -63,10 +75,12 @@ def run_codon(codon_list, orig_codon_sequence, tmp_info, number_of_changes):
             debugger_txt.write("Changed aa: {}\n".format(CodonDict[changed_codons[x]][1]))
             if CodonDict[orig_codon_sequence][1] == CodonDict[changed_codons[x]][1]:
                 debugger_txt.write("Type of change: Synonymous\n")
-                ds += number_of_changes[x]/((CodonDict[orig_codon_sequence][0]) * copy_number)
+                sum_for_avg_s += number_of_changes[x]
+                sum_L += CodonDict[orig_codon_sequence][0]
             else:
                 debugger_txt.write("Type of change: Non-synonymous\n")
-                dn += number_of_changes[x]/((3-CodonDict[orig_codon_sequence][0]) * copy_number)
+                sum_for_avg_n += number_of_changes[x]
+                sum_K += (3-CodonDict[orig_codon_sequence][0])
             debugger_txt.write('\n')
 
 # open the Lineage1xAndCN.txt file as to get information used in later calculations
@@ -88,7 +102,7 @@ with open("../data/Lineage1xAndCN.txt", "r") as info_file:
             break
 
 # iterate through the inputted filename, 3 lines at a time and at the end, call run_codon() with 
-# all the relevant information to find ds and dn for each codon that changes
+# all the relevant information to find sum_for_avg_s and sum_for_avg_n for each codon that changes
 with open(filename, "r") as raw_file:
     codon_list = []
     position = 0
@@ -97,9 +111,11 @@ with open(filename, "r") as raw_file:
     tmp_sequence = []
     tmp_base = ""
     number_of_changes = []
+    nucleotide_counter=0
     for line in raw_file:
         line = line.split()
         if line[0][0] != "#":
+            nucleotide_counter += 1
             TEfam = line[1]
             raw_file_sample_id = line[2]
             refbase = line[3]
@@ -108,13 +124,13 @@ with open(filename, "r") as raw_file:
             G = int(line[6])
             T = int(line[7])
             if refbase == 'A':
-                if (C > round(one_x/ploidy)):
+                if (C > round(one_x/2)):
                     tmp_base += 'C'
                     number_of_changes.append(C/one_x)
-                if (G > round(one_x/ploidy)):
+                if (G > round(one_x/2)):
                     tmp_base += 'G'
                     number_of_changes.append(G/one_x)
-                if (T > round(one_x/ploidy)):
+                if (T > round(one_x/2)):
                     tmp_base += 'T'
                     number_of_changes.append(T/one_x)
                 if tmp_base != "":
@@ -123,13 +139,13 @@ with open(filename, "r") as raw_file:
                     tmp_sequence.append(info)
                     tmp_base = ""
             elif refbase == 'C':
-                if (A > round(one_x/ploidy)):
+                if (A > round(one_x/2)):
                     tmp_base += 'A'
                     number_of_changes.append(A/one_x)
-                if (G > round(one_x/ploidy)):
+                if (G > round(one_x/2)):
                     tmp_base += 'G'
                     number_of_changes.append(G/one_x)
-                if (T > round(one_x/ploidy)):
+                if (T > round(one_x/2)):
                     tmp_base += 'T'
                     number_of_changes.append(T/one_x)
                 if tmp_base != "":
@@ -138,13 +154,13 @@ with open(filename, "r") as raw_file:
                     tmp_sequence.append(info)
                     tmp_base = ""
             elif refbase == 'G':
-                if (A > round(one_x/ploidy)):
+                if (A > round(one_x/2)):
                     tmp_base += 'A'
                     number_of_changes.append(A/one_x)
-                if (C > round(one_x/ploidy)):
+                if (C > round(one_x/2)):
                     tmp_base += 'C'
                     number_of_changes.append(C/one_x)
-                if (T > round(one_x/ploidy)):
+                if (T > round(one_x/2)):
                     tmp_base += 'T'
                     number_of_changes.append(T/one_x)
                 if tmp_base != "":
@@ -153,13 +169,13 @@ with open(filename, "r") as raw_file:
                     tmp_sequence.append(info)
                     tmp_base = ""
             elif refbase == 'T':
-                if (A > round(one_x/ploidy)):
+                if (A > round(one_x/2)):
                     tmp_base += 'A'
                     number_of_changes.append(A/one_x)
-                if (C > round(one_x/ploidy)):
+                if (C > round(one_x/2)):
                     tmp_base += 'C'
                     number_of_changes.append(C/one_x)
-                if (G > round(one_x/ploidy)):
+                if (G > round(one_x/2)):
                     tmp_base += 'G'
                     number_of_changes.append(G/one_x)
                 if tmp_base != "":
@@ -182,8 +198,18 @@ with open(filename, "r") as raw_file:
             else:
                 position += 1
 
+pn = (sum_for_avg_n/nucleotide_counter) / (sum_L * copy_number)
+ps = (sum_for_avg_s/nucleotide_counter) / (sum_K * copy_number)
+
 # write the results to the temp_results.txt file in output directory. This is the file that is written to
 # because later we will take that file and do some fancy things to align the columns properly and the
 # output will be named something else and this file will be deleted
-with open("../output/temp_results.txt", "a") as results_file:  
-    results_file.write("{}   {}   {}   {}\n".format(sample_id, histone, ds, dn))
+with open("../output/temp_PnPs_results.txt", "a") as PnPs_results_file:  
+    PnPs_results_file.write("{}   {}   {}   {}   {}   {}\n".format(sample_id, ploidy, histone, pn, ps, pn/ps))
+
+# calculate dn, ds, and dn/ds ratio from the already found pn and sum_for_avg_s values (d = -3/4*loge(1-4/3p))
+dn = ((-3/4)*(log(1-((4/3)*pn))))
+ds = ((-3/4)*(log(1-((4/3)*ps))))
+
+with open("../output/temp_DnDs_results.txt", "a") as DnDs_results_file:
+    DnDs_results_file.write("{}   {}   {}   {}   {}   {}\n".format(sample_id, ploidy, histone, dn, ds, dn/ds))
