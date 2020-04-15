@@ -3,6 +3,7 @@ Analysis was conducted in R
 
 ## Rstudio Plotting 
 ### Figures 1.1, 1.2, & 1.3 
+Plots found under Pn_Ps.1.1, Pn_Ps.1.2, and Pn_Ps.1.3
 ```
 # load required libraries
 library(tidyverse)
