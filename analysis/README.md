@@ -4,6 +4,9 @@ Analysis was conducted in R
 ## Rstudio Plotting 
 ### Figures 1.1, 1.2, & 1.3 
 ```
+# load required libraries
+library(tidyverse)
+require(tidyverse)
 # Import Data
 Pn_Ps <- read.csv("PnPs_results.txt", header=TRUE, sep = "")
 # goal: boxplot to show individual histone genes (H2A, H2B, H3, & H4) pn/ps ratios with in the same ploidy
