@@ -1,0 +1,25 @@
+# Analysis of Data
+This is an example for plotting boxplots using ggplot2. Bin He, 2020-04-15
+
+```{r plotting}
+# load required libraries
+library(tidyverse) # require() and library() achieve the same thing
+
+# Import Data
+Pn_Ps <- read_tsv("PnPs_results.txt", header=TRUE) # use the tidyverse version
+
+# goal: boxplot to show individual histone genes (H2A, H2B, H3, & H4) pn/ps ratios with in the same ploidy
+# sorting data -- no need, Bin He --
+#Pn_Ps.1 <- select(Pn_Ps,Ploidy,Histone,pn_ps)
+#View(Pn_Ps.1)
+#Pn_Ps.1.1 <- filter(Pn_Ps.1, Ploidy == 2)
+#View(Pn_Ps.1.1)
+#Pn_Ps.1.2 <- filter(Pn_Ps.1, Ploidy == 3)
+#View(Pn_Ps.1.2)
+#Pn_Ps.1.3 <- filter(Pn_Ps.1, Ploidy == 4)
+#View(Pn_Ps.1.3)
+# -- end commenting out --
+
+# creating boxplots 
+ggplot(data = Pn_Ps, aes(x = Histone, y= pn_ps, color = Ploidy)) + geom_boxplot() + ggtitle("Pn/Ps of Histone gene in 2n Lineages")
+```
