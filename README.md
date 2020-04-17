@@ -6,8 +6,8 @@ Our understanding of asexual vs sexual reproduction and evolution has developed 
 ### master/data/deviate_histones_raw
 The data has been generated with DeviaTE software. There are 26 lineages of *Potamopyrgus antipodarum*, and 1 out group, and include the sequences of H2A, H2B, H3, and H4 genes
 ## Methods
-### master/script/README.MD
-### master/analysis/boxplot.RM
-### Analysis 
+### master/script/
+### master/analysis/
 ## Results
+### master/output/
 
