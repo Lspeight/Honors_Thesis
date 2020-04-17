@@ -42,7 +42,8 @@ sum_L = 0
 
 # Function to computationally find sum_for_avg_s or sum_for_avg_n for each given codon and adds those respective values to their
 # global sum_for_avg_s or sum_for_avg_n value. This code only runs when the below code finds a base that isn't refbase but is greater 
-# than the 1x value divided by ploidy number (normal rounding where x.5 rounds up). For debugging purposes, this part of
+# than the 1x value divided by 2 (normal rounding where x.5 rounds up). This 1/2 1x parameter to find changes among sequences was 
+# chosen to not over look possible changes that were 1 or 2 less then the 1x value. For debugging purposes, this part of
 # the code also writes to a debugger_file (debugger_file.txt) located in the output directory of this git repo
 def run_codon(codon_list, orig_codon_sequence, tmp_info, number_of_changes):
     
