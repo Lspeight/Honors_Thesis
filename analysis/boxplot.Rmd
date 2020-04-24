@@ -6,6 +6,7 @@ library(tidyverse) # require() and library() achieve the same thing
 ```
 # Import Data
 ```
+setwd("~/Documents/Histone Data/GitHub/biol-4386-project-Lspeight/output")
 Pn_Ps <- read_tsv("PnPs_results.txt", col_types = "cfcddd")
 view(Pn_Ps)
 Dn_Ds <- read_tsv("DnDs_results.txt", col_types = "cfcddd")
