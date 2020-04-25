@@ -13,14 +13,46 @@ Dn_Ds <- read_tsv("DnDs_results.txt", col_types = "cfcddd")
 view(Dn_Ds)
 ```
 # Creating Boxplots
+## Creating Figure 1 and Figure 2
 ```
 Pn_Ps %>% ggplot(aes(x = Histone, y = pn_ps, color = Ploidy)) + geom_boxplot()+ theme_classic() + ggtitle("Pn/Ps of Histone genes per Ploidy") + scale_color_manual(values = c("red","blue","yellow")) 
 Dn_Ds %>% ggplot(aes(x = Histone, y = dn_ds, color = Ploidy)) + geom_boxplot()+ theme_classic() + ggtitle("Dn/Ds of Histone genes per Ploidy") + scale_color_manual(values = c("red","blue","yellow")) 
 ```
 Since values did not change much between Pn/Ps and Dn/Ds and both graphs represent almost the exact some results, only Dn/Ds was use to create the second graph comparing sexual vs asexaul reproduction (instead of Ploidy)
+## Creating Figure 3
 ```
 dnds %>% ggplot(aes(x = Histone, y = dn_ds, color = Mode)) + geom_boxplot() + theme_classic() + scale_color_manual(values = c("blue","red")) + ggtitle("Dn/Ds between Sexual and Asexual lineages among Histone Genes")
 ```
 
 # Stastical test 
-only a statical test was ran on Dn/Ds results. 
+only a statical test was ran on Dn/Ds results comparing asex and sex values from Figure 3. 
+Numerical lists of Dn/Ds values from sexual and asexaul snails had to be created
+Wilcox rank sum test was ran with Sex and Asex Dn/Ds values;
+```
+asex<- filter(dnds, Mode == "asex")
+view(asex)
+sex <- filter(dnds,Mode == "sex")
+view(sex)
+x <- select(sex,dn_ds)
+view (x)
+y <- select (asex,dn_ds)
+view (y)
+x <-c(x)
+y <-c(y)
+View(x)
+View(y)
+X <-as.numeric(x[[1]])
+view(X)
+Y<-as.numeric(y[[1]])
+view(Y)
+wilcox.test(X,Y,alternative = "greater")
+```
+Output should look like
+
+```
+Wilcoxon rank sum test with continuity correction
+
+data:  X and Y
+W = 974, p-value = 0.9967
+alternative hypothesis: true location shift is greater than 0
+ ```
