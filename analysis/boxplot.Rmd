@@ -18,12 +18,17 @@ view(Dn_Ds)
 Pn_Ps %>% ggplot(aes(x = Histone, y = pn_ps, color = Ploidy)) + geom_boxplot()+ theme_classic() + ggtitle("Pn/Ps of Histone genes per Ploidy") + scale_color_manual(values = c("red","blue","yellow")) 
 Dn_Ds %>% ggplot(aes(x = Histone, y = dn_ds, color = Ploidy)) + geom_boxplot()+ theme_classic() + ggtitle("Dn/Ds of Histone genes per Ploidy") + scale_color_manual(values = c("red","blue","yellow")) 
 ```
-Since values did not change much between Pn/Ps and Dn/Ds and both graphs represent almost the exact some results, only Dn/Ds was use to create the second graph comparing sexual vs asexaul reproduction (instead of Ploidy)
 ## Creating Figure 3
+Since values did not change much between Pn/Ps and Dn/Ds and both graphs represent almost the exact some results, only Dn/Ds was use to create the second graph comparing sexual vs asexaul reproduction (instead of Ploidy)
 ```
 dnds %>% ggplot(aes(x = Histone, y = dn_ds, color = Mode)) + geom_boxplot() + theme_classic() + scale_color_manual(values = c("blue","red")) + ggtitle("Dn/Ds between Sexual and Asexual lineages among Histone Genes")
 ```
-
+## Creating Figure 4 and 5
+The dn/ds values for all four histone genes were displayed per lineage. The first graph displays the ploidy per lineage, the second graph displays which histone gene is represent by each dot
+```
+Dn_Ds %>% ggplot(aes(x = Lineage, y = dn_ds, color = Ploidy)) + geom_point()+ theme_classic() + ggtitle("Dn/Ds of Lineages per Ploidy") + scale_color_manual(values = c("red","blue","yellow")) + theme(axis.text.x = element_text(angle = 90, size = 8))
+Dn_Ds %>% ggplot(aes(x = Lineage, y = dn_ds, color = Histone)) + geom_point()+ theme_classic() + ggtitle("Dn/Ds of each Lineage's Histone Genes") + theme(axis.text.x = element_text(angle = 90, size = 8))
+```
 # Stastical test 
 only a statical test was ran on Dn/Ds results comparing asex and sex values from Figure 3. 
 Numerical lists of Dn/Ds values from sexual and asexaul snails had to be created
