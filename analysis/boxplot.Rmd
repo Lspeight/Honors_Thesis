@@ -21,6 +21,10 @@ Dn_Ds %>% ggplot(aes(x = Histone, y = dn_ds, color = Ploidy)) + geom_boxplot()+ 
 ## Creating Figure 3
 Since values did not change much between Pn/Ps and Dn/Ds and both graphs represent almost the exact some results, only Dn/Ds was use to create the second graph comparing sexual vs asexaul reproduction (instead of Ploidy)
 ```
+dnds <- read_tsv("DnDs_results.txt", col_types = "cicddd")
+dnds <- dnds %>% mutate(
+  Mode = factor(Ploidy, levels = c(2,3,4), 
+                labels = c("sex","asex","asex")))
 dnds %>% ggplot(aes(x = Histone, y = dn_ds, color = Mode)) + geom_boxplot() + theme_classic() + scale_color_manual(values = c("blue","red")) + ggtitle("Dn/Ds between Sexual and Asexual lineages among Histone Genes")
 ```
 ## Creating Figure 4 and 5
