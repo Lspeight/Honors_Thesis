@@ -28,9 +28,10 @@ kruskal.test(dn_ds ~ Ploidy, data = H2A)
 	Kruskal-Wallis rank sum test
 
 data:  dn_ds by Ploidy
-H2B <- filter(DNDS, Histone == "H2B")
+
 Kruskal-Wallis chi-squared = 3.1215, df = 2, p-value = 0.21
 # Test on H2B
+H2B <- filter(DNDS, Histone == "H2B")
 kruskal.test(dn_ds ~ Ploidy, data = H2B)
 
 	Kruskal-Wallis rank sum test
