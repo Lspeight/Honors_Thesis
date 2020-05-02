@@ -199,18 +199,12 @@ with open(filename, "r") as raw_file:
             else:
                 position += 1
 
-pn = (sum_for_avg_n/nucleotide_counter) / (sum_L * copy_number)
-ps = (sum_for_avg_s/nucleotide_counter) / (sum_K * copy_number)
+N = (sum_for_avg_n/nucleotide_counter) / (sum_L * copy_number)
+S = (sum_for_avg_s/nucleotide_counter) / (sum_K * copy_number)
 
 # write the results to the temp_results.txt file in output directory. This is the file that is written to
 # because later we will take that file and do some fancy things to align the columns properly and the
 # output will be named something else and this file will be deleted
-with open("../output/temp_PnPs_results.txt", "a") as PnPs_results_file:  
-    PnPs_results_file.write("{}   {}   {}   {}   {}   {}\n".format(sample_id, ploidy, histone, pn, ps, pn/ps))
+with open("../output/temp_NS_results.txt", "a") as NS_results_file:  
+    NS_results_file.write("{}   {}   {}   {}   {}   {}\n".format(sample_id, ploidy, histone, N, S, N/S))
 
-# calculate dn, ds, and dn/ds ratio from the already found pn and sum_for_avg_s values (d = -3/4*loge(1-4/3p))
-dn = ((-3/4)*(log(1-((4/3)*pn))))
-ds = ((-3/4)*(log(1-((4/3)*ps))))
-
-with open("../output/temp_DnDs_results.txt", "a") as DnDs_results_file:
-    DnDs_results_file.write("{}   {}   {}   {}   {}   {}\n".format(sample_id, ploidy, histone, dn, ds, dn/ds))
