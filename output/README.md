@@ -1,12 +1,14 @@
-# Expected Output 
-Output Data should be DnDs_results.txt and PnPs_results.txt 
+# Script Output 
+Output Data should be NS_results.txt
 ## Setting up Data for R Analysis
-Editing of text files must be done before the DnDs and PnPs outputs can be used in R
+Editing of text files must be done before the NS output can be used in R
 ```
-$ vim PnPs_results.txt
+$ vim NS_results.txt
 # first go to the dashed bar under the headers and type dd
 # then go to Pn/Ps and change to pn_pS
-:wq%s/\s\+/\t/g #to create tab format for R
+:%s/\s\+/\t/g #to create tab format for R
 :wq
 ```
-Repeate with DnDs_results.txt
+# Rstudio Output 
+Output should include 4 Figures
+Statical test results were compiled into 2 tables and added to output
