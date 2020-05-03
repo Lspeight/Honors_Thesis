@@ -12,4 +12,4 @@ $ vim NS_results.txt
 # Rstudio Output 
 Output should include 4 Figures: "Figure1.png", "Figure2.png", "Figure3.png", "Figure4.png".
 
-Statical test results were compiled into 2 tables and added to output.
+Statical test results were compiled into 2 tables and added to output: "Table.1.txt", "Table.2.txt"
