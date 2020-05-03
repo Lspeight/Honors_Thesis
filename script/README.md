@@ -1,5 +1,5 @@
 # Script 
-"Histone_analzyer.sh" contains the python to analyze the data
+"histone_analyzer.py" contains the python code to analyze the data
 #### To run the Repetitive Gene Selection Tool (RGS):
 - ```./run_rgs_analysis.sh```
 
