@@ -1,5 +1,5 @@
 # Script Output 
-Output Data should be NS_results.txt
+Output Data should be "NS_results.txt"
 ## Setting up Data for R Analysis
 Editing of text files must be done before the NS output can be used in R
 ```
@@ -10,5 +10,5 @@ $ vim NS_results.txt
 :wq
 ```
 # Rstudio Output 
-Output should include 4 Figures
+Output should include 4 Figures: "Figure1.png", "Figure2.png", "Figure3.png", "Figure4.png"
 Statical test results were compiled into 2 tables and added to output
