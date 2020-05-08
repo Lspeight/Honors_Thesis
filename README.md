@@ -12,7 +12,8 @@ A python script was written to analyze the rate of nonysonmous and sysnonymous c
 Rstudio was used to create boxplots and run non parameteric statistical tests.
 ## Results
 ### master/output/
-The python script procuded NS_results.txt
+The python script procuded NS_results.tx. 
+
 R analysis results indclude 2 tables of compiled non parameteric statical tests and 4 figures. 
 
 ## Conclusion 
