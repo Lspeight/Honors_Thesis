@@ -18,9 +18,9 @@ R analysis results indclude 2 tables of compiled non parameteric statical tests 
 
 ## Conclusion 
 At the start of this research, the following questions were raised:
-¥	Why do asexual lineages have more copies of repetitive histone genes? 
-¥	Are they all being used? If not, would we see a higher accumulation of nonsynonymous changes? 
-¥	If we see about the same amount of nonsynonymous to synonymous changes occurring between sexuals and asexuals, can we assume similar modes of selection? If not, can we assume different modes of selection are acting? 
-¥	How do we look at selection among repetitive genes? 
+-	Why do asexual lineages have more copies of repetitive histone genes? 
+-	Are they all being used? If not, would we see a higher accumulation of nonsynonymous changes? 
+-	If we see about the same amount of nonsynonymous to synonymous changes occurring between sexuals and asexuals, can we assume similar modes of selection? If not, can we assume different modes of selection are acting? 
+-	How do we look at selection among repetitive genes? 
  
 These questions lead me to create N/S values using a Python script. While N/S values do give us insight into the nonsynonymous and synonymous polymorphisms that are occurring among the repetitive histone genes, N/S does not directly tell us what selective pressures are occurring. I hoped to identify a significant or insignificant difference in N/S values by comparing ploidy and different modes of reproduction. However, only all the histone genes combined and H2B alone showed enough statistical evidence to reject the null hypothesis for both the Kruskal-Wallis and Wilcoxon tests. The fact that most of the histone genes individually did not show statistical evidence for a difference in N/S distributions contradicts the results when all the histone genes are combined. I believe to fully understand this inconsistency that more sampling is needed. Either more lineages need to be sampled or multiple snails from each lineage are needed. I imagine this would give more statistical power to both these tests. While the methods and results of this project may not be conclusive enough to determine selection occurring among repetitive histone genes in Potamopyrgus antipodarum, they do suggest some possible underlying distinction between asexual and sexual repetitive histone genes and further investigation is appropriate.  
